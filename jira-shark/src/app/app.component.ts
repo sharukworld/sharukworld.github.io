@@ -1,7 +1,9 @@
 import { Url } from '../constant/url';
 import { Component } from '@angular/core';
-import { HttpService } from "services/http-services/http.service";
-import { UserModel } from "Model/user.mode";
+import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
+import { UserModel } from 'Model/user.mode';
+import { HttpService } from 'services/http-services/http.service';
+
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,7 @@ import { UserModel } from "Model/user.mode";
 })
 export class AppComponent {
   title = 'app';
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private cookieService: CookieService) {
 
   }
   url;
@@ -23,11 +25,17 @@ export class AppComponent {
   toDate: string;
   userList: UserModel[] = [];
   issues = [];
-   today = new Date();
-   todayDate = '';
-  ngOnInit(){
-   this.today.setHours(0,0,0,0);
-    this.todayDate = (this.today).toLocaleString('en-GB').slice(0,10).split("\/").reverse().join("-");
+  today = new Date();
+  todayDate = '';
+  ngOnInit() {
+    this.today.setHours(0, 0, 0, 0);
+    this.todayDate = (this.today).toLocaleString('en-GB').slice(0, 10).split("\/").reverse().join("-");
+    let jiraKey: any = this.cookieService.getObject('jirKey');
+    if (jiraKey != null) {
+      this.username = jiraKey.username;
+      this.jiraDomain = jiraKey.jiraDomain;
+      this.project = jiraKey.project;
+    }
   }
   getAllUser() {
     let url = this.jiraDomain + Url.user + this.project;
@@ -40,10 +48,25 @@ export class AppComponent {
     );
   }
 
+  setCookies() {
+    let date = this.today;
+    let year = this.today.getFullYear() + 20;
+    date.setUTCFullYear(year);
+    let opts: CookieOptionsArgs = {
+      expires: date
+    };
+    this.cookieService.putObject('jirKey', {
+      'username': this.username,
+      'jiraDomain': this.jiraDomain,
+      'project': this.project
+    }, opts);
+  }
+
   moreThan20Logs = [];
   getWorkLogFromTo() {
-  this.userList = [];
-    let queryDate = (this.fromDate === '')?this.todayDate:this.fromDate;
+    this.setCookies();
+    this.userList = [];
+    let queryDate = (this.fromDate === '') ? this.todayDate : this.fromDate;
     let url = this.jiraDomain + Url.allTicketWorkLog + '&fields=key,summary,worklog&jql=project= ' + this.project + ' and updated >' + queryDate;
     this.httpService.secureGet(url, this.username, this.password).subscribe(
       res => {
@@ -59,7 +82,7 @@ export class AppComponent {
         });
         console.log('issues', this.issues);
         if (this.moreThan20Logs.length !== 0) {
-        console.log('morethan20', this.moreThan20Logs);
+          console.log('morethan20', this.moreThan20Logs);
 
           for (let i = 0; i < this.moreThan20Logs.length; i++) {
             console.log('for', this.moreThan20Logs[i]);
@@ -115,7 +138,7 @@ export class AppComponent {
     let timeInSecond = 0;
     worklogs.forEach(el => {
       let date = new Date(el.updated);
-      let queryDate = (this.fromDate === '')?this.todayDate:this.fromDate;
+      let queryDate = (this.fromDate === '') ? this.todayDate : this.fromDate;
       let fromDateCompare = new Date(queryDate + ' 00:00:00');
       if (date >= fromDateCompare)
         timeInSecond += el.timeSpentSeconds;
