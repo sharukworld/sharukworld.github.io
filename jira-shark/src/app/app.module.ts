@@ -16,7 +16,10 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     FormsModule,
     HttpModule
   ],
-  providers: [CookieService],
+  providers: [{ provide: CookieService, useFactory: cookieServiceFactory }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+export function cookieServiceFactory() {
+  return new CookieService();
+}
