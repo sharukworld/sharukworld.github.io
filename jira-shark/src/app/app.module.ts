@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HomePageComponent } from "pages/home.page/home.page.component";
@@ -16,7 +16,8 @@ import { HomePageComponent } from "pages/home.page/home.page.component";
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ReactiveFormsModule
   ],
   providers: [{ provide: CookieService, useFactory: cookieServiceFactory }, HttpService],
   bootstrap: [AppComponent]

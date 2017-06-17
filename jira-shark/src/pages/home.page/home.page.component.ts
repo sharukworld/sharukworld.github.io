@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
 import { UserModel } from 'Model/user.mode';
 import { HttpService } from 'services/http-services/http.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 
 
 @Component({
@@ -12,13 +14,12 @@ import { HttpService } from 'services/http-services/http.service';
 })
 export class HomePageComponent {
   title = 'app';
-  constructor(private httpService: HttpService, private cookieService: CookieService) {
+  constructor(private httpService: HttpService, private cookieService: CookieService, private _fb: FormBuilder) {
 
   }
   url;
   password: string = '';
-
-
+  jiraDetailForm: FormGroup;
   fromDate: string = '';
   userDataObj: any = {
     username: '',
@@ -38,6 +39,15 @@ export class HomePageComponent {
     let cookies = this.cookieService.getObject('jirKey');
     if (cookies != null)
       this.userDataObj = cookies;
+
+    this.jiraDetailForm = this._fb.group({
+      'userName' : [this.userDataObj.username, [Validators.required]],
+      'password' : [this.userDataObj.password, [Validators.required]],
+      'jiraDomain' : [this.userDataObj.jiraDomain, [Validators.required]],
+      'project' : [this.userDataObj.project, [Validators.required]],
+      'fromDate' : [this.userDataObj.fromDate, []],
+    })
+    
   }
 
   setCookies() {
