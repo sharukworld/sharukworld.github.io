@@ -1,12 +1,10 @@
 export class  Url {
 
-static get user():string {
-return '/rest/api/2/user/assignable/search?project=';
+static get baseUrl(): string {
+    return (window.location.hostname ==='localhost')?'http://localhost:8080':'https://jira-oc-services-jira-services.7e14.starter-us-west-2.openshiftapps.com';
 }
-static get allTicketWorkLog(){
-    return '/rest/api/2/search?maxResults=2000'
-}
-static get givenIssue(){
-    return '/rest/api/2/issue/';
+
+static get worklog(): string {
+    return '/worklogs';
 }
 }

@@ -1,0 +1,51 @@
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Navbar</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Links</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.username" [ngModelOptions]="{standalone: true}" type="text" placeholder="Email/Username">
+      <input class="form-control mr-sm-2" [(ngModel)] = "password" [ngModelOptions]="{standalone: true}" type="password" placeholder="Password">
+            <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.jiraDomain" [ngModelOptions]="{standalone: true}" type="text" placeholder="JiraDomain">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click) = "getWorkLogFromTo()">Get worklogs</button>
+    </form>
+  </div>
+</nav>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.project" [ngModelOptions]="{standalone: true}" type="text" placeholder="project">
+            <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.fromDate" [ngModelOptions]="{standalone: true}" type="text" placeholder="fromDate">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click) = "test()">Get Active Users</button>
+    </form>
+  </div>
+</nav>
+
+<table class="table table-striped ">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Name</th>
+            <th>emailAddress</th>
+            <th>work logs </th>
+            <th>Pic</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor ="let user of userList">
+                <td >{{user.displayName}}</td>
+                <td>{{user.emailAddress}}</td>
+                <td> {{calculateTime(user.worklogs)}} </td>
+                 <td>  <img class="pic" src="{{user.avatarUrls['48x48']}}"/></td>
+            </tr>
+        </tbody>
+</table>

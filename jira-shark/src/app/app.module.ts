@@ -6,17 +6,19 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { HomePageComponent } from "pages/home.page/home.page.component";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [{ provide: CookieService, useFactory: cookieServiceFactory }],
+  providers: [{ provide: CookieService, useFactory: cookieServiceFactory }, HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
