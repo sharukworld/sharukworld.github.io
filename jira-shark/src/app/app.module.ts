@@ -8,6 +8,8 @@ import { HttpModule } from '@angular/http';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HomePageComponent } from "pages/home.page/home.page.component";
 import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
     FormsModule,
     HttpModule,
     ReactiveFormsModule,
-    MyDateRangePickerModule
+    MyDateRangePickerModule,
+    BrowserAnimationsModule, 
+    SimpleNotificationsModule.forRoot()
   ],
   providers: [{ provide: CookieService, useFactory: cookieServiceFactory }, HttpService],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded" *ngIf="!isHttpCallOnProgress">
   <div class="" id="navbarSupportedContent">
     <form class="form-inline my-2 my-lg-0" [formGroup]="jiraDetailForm">
       <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.username" formControlName="userName" type="text" placeholder="Email/Username">
@@ -11,7 +11,18 @@
     </form>
   </div>
 </nav>
-<table class="table table-striped ">
+<div class="sk-cube-grid margin-top-300" *ngIf="isHttpCallOnProgress">
+  <div class="sk-cube sk-cube1"></div>
+  <div class="sk-cube sk-cube2"></div>
+  <div class="sk-cube sk-cube3"></div>
+  <div class="sk-cube sk-cube4"></div>
+  <div class="sk-cube sk-cube5"></div>
+  <div class="sk-cube sk-cube6"></div>
+  <div class="sk-cube sk-cube7"></div>
+  <div class="sk-cube sk-cube8"></div>
+  <div class="sk-cube sk-cube9"></div>
+</div>
+<table class="table table-striped " *ngIf="!isHttpCallOnProgress">
     <thead class="thead-inverse">
         <tr>
             <th>Name</th>
@@ -30,3 +41,4 @@
             <tr><td colspan="4" *ngIf="userList.length === 0"> No data found for the given credentials</td></tr>
         </tbody>
 </table>
+<simple-notifications [options]="options" (onCreate)="created($event)" (onDestroy)="destroyed($event)"></simple-notifications>
