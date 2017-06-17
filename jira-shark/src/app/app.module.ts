@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HomePageComponent } from "pages/home.page/home.page.component";
+import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { HomePageComponent } from "pages/home.page/home.page.component";
     BrowserModule,
     FormsModule,
     HttpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MyDateRangePickerModule
   ],
   providers: [{ provide: CookieService, useFactory: cookieServiceFactory }, HttpService],
   bootstrap: [AppComponent]

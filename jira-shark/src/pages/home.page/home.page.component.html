@@ -1,15 +1,12 @@
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-  <!--<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>-->
-
   <div class="" id="navbarSupportedContent">
     <form class="form-inline my-2 my-lg-0" [formGroup]="jiraDetailForm">
       <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.username" formControlName="userName" type="text" placeholder="Email/Username">
       <input class="form-control mr-sm-2" [(ngModel)] = "password" formControlName="password" type="password" placeholder="Password">
       <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.jiraDomain" formControlName="jiraDomain" type="text" placeholder="JiraDomain">
       <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.project" formControlName="project" type="text" placeholder="project">
-      <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.fromDate" formControlName="fromDate" type="text" placeholder="fromDate">
+      <my-date-range-picker class ="padding-top-5"name="mydaterange"   [options]="myDateRangePickerOptions"
+                    [(ngModel)]="userDataObj.fromDate" formControlName="fromDate"></my-date-range-picker>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click) = "getWorkLogFromTo()" [disabled] ="!jiraDetailForm.valid">Get worklogs</button>
     </form>
   </div>
@@ -30,5 +27,6 @@
                 <td> {{calculateTime(user.worklogs)}} </td>
                  <td>  <img class="pic" src="{{user.avatarUrls['48x48']}}"/></td>
             </tr>
+            <tr><td colspan="4" *ngIf="userList.length === 0"> No data found for the given credentials</td></tr>
         </tbody>
 </table>

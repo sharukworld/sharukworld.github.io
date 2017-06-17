@@ -1,26 +1,34 @@
 import { Url } from '../../constant/url';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
 import { UserModel } from 'Model/user.mode';
 import { HttpService } from 'services/http-services/http.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IMyDrpOptions } from 'mydaterangepicker';
 
 
 
 @Component({
   selector: 'sw-jira-home',
   templateUrl: './home.page.component.html',
-  styleUrls: ['./home.page.component.css']
+  styleUrls: ['./home.page.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class HomePageComponent {
-  title = 'app';
   constructor(private httpService: HttpService, private cookieService: CookieService, private _fb: FormBuilder) {
 
   }
-  url;
+  private myDateRangePickerOptions: IMyDrpOptions = {
+    // other options...
+    dateFormat: 'yyyy-mm-dd',
+    editableDateRangeField: false,
+    openSelectorOnInputClick: true,
+    height: '37px',
+    width: '232px'
+
+  };
   password: string = '';
   jiraDetailForm: FormGroup;
-  fromDate: string = '';
   userDataObj: any = {
     username: '',
     jiraDomain: '',
@@ -28,7 +36,6 @@ export class HomePageComponent {
     fromDate: '',
     toDate: ''
   }
-  toDate: string;
   userList: UserModel[] = [];
   issues = [];
   today = new Date();
@@ -41,13 +48,13 @@ export class HomePageComponent {
       this.userDataObj = cookies;
 
     this.jiraDetailForm = this._fb.group({
-      'userName' : [this.userDataObj.username, [Validators.required]],
-      'password' : [this.userDataObj.password, [Validators.required]],
-      'jiraDomain' : [this.userDataObj.jiraDomain, [Validators.required]],
-      'project' : [this.userDataObj.project, [Validators.required]],
-      'fromDate' : [this.userDataObj.fromDate, []],
+      'userName': [this.userDataObj.username, [Validators.required]],
+      'password': [this.userDataObj.password, [Validators.required]],
+      'jiraDomain': [this.userDataObj.jiraDomain, [Validators.required]],
+      'project': [this.userDataObj.project, [Validators.required]],
+      'fromDate': [this.userDataObj.fromDate, []],
     })
-    
+
   }
 
   setCookies() {
@@ -63,12 +70,19 @@ export class HomePageComponent {
   getWorkLogFromTo() {
     this.setCookies();
     this.userList = [];
-    let queryDate = (this.userDataObj.fromDate === '') ? this.todayDate : this.userDataObj.fromDate;
-    this.userDataObj.fromDate = queryDate;
-    let url = Url.baseUrl+Url.worklog;
+      let url = Url.baseUrl + Url.worklog;
+      if(this.userDataObj.fromDate == null){
+        this.userDataObj.fromDate = this.todayDate;
+        this.userDataObj.toDate = ''
+      }
+      else {
+      let startDate = this.userDataObj.fromDate.formatted.slice(0, 10);
+      let endDate = this.userDataObj.fromDate.formatted.slice(13, 23);
+      this.userDataObj.fromDate = startDate;
+      this.userDataObj.toDate = endDate;
+      }   
     this.httpService.securePost(url, this.userDataObj, this.userDataObj.username, this.password).subscribe(
       res => {
-        console.log('res', res.json());
         this.userList = res.json();
       }
     );
