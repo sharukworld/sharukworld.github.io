@@ -65,7 +65,7 @@ export class AppComponent {
    this.userList = [];
      let queryDate = (this.userDataObj.fromDate === '') ? this.todayDate : this.userDataObj.fromDate;
      this.userDataObj.fromDate = queryDate;
-     let url = "http://jira-oc-services-jira-services.7e14.starter-us-west-2.openshiftapps.com//worklogs";
+     let url = "http://jira-oc-services-jira-services.7e14.starter-us-west-2.openshiftapps.com/worklogs";
      this.httpService.securePost(url, this.userDataObj,  this.userDataObj.username, this.password).subscribe(
        res => {
          console.log('res', res.json());
