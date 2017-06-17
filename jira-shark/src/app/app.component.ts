@@ -1,6 +1,7 @@
 import { Url } from '../constant/url';
 import { Component } from '@angular/core';
-import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
+import {  CookieService } from 'angular2-cookie/core';
+
 import { UserModel } from 'Model/user.mode';
 import { HttpService } from 'services/http-services/http.service';
 
@@ -50,13 +51,13 @@ export class AppComponent {
   // }
 
   setCookies() {
-    let date = this.today;
-    let year = this.today.getFullYear() + 20;
-    date.setUTCFullYear(year);
-    let opts: CookieOptionsArgs = {
-      expires: date
-    };
-    this.cookieService.putObject('jirKey', this.userDataObj, opts);
+    // let date = this.today;
+    // let year = this.today.getFullYear() + 20;
+    // date.setUTCFullYear(year);
+    // let opts = {
+    //   expires: date
+    // };
+    this.cookieService.putObject('jirKey', this.userDataObj);
   }
 
   moreThan20Logs = [];
