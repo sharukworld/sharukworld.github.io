@@ -5,7 +5,7 @@
       <input class="form-control mr-sm-2" [(ngModel)] = "password" formControlName="password" type="password" placeholder="Password">
       <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.jiraDomain" formControlName="jiraDomain" type="text" placeholder="JiraDomain">
       <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.project" formControlName="project" type="text" placeholder="project">
-      <my-date-range-picker class ="padding-top-5"name="mydaterange"   [options]="myDateRangePickerOptions"
+      <my-date-range-picker [placeholder] = "'Today'"class ="padding-top-5"name="mydaterange"   [options]="myDateRangePickerOptions"
                     [(ngModel)]="userDataObj.fromDate" formControlName="fromDate"></my-date-range-picker>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click) = "getWorkLogFromTo()" [disabled] ="!jiraDetailForm.valid">Get worklogs</button>
     </form>
@@ -24,7 +24,7 @@
 </div>
 <table class="table table-striped " *ngIf="!isHttpCallOnProgress && view === 'allUserView'">
     <thead class="thead-inverse">
-        <tr>
+        <tr *ngIf="attemptedToFetchWorklogs && userList.length > 0 ">
             <th>Name</th>
             <th>emailAddress</th>
             <th>work logs </th>
@@ -38,7 +38,7 @@
                 <td> {{user.timeSpentSeconds/3600}} </td>
                  <td>  <img class="pic" src="{{user.avatarUrls['48x48']}}"/></td>
             </tr>
-            <tr><td colspan="4" *ngIf="userList.length === 0"> No data found for the given credentials</td></tr>
+            <tr><td colspan="4" *ngIf="userList.length === 0 && attemptedToFetchWorklogs"> No data found for the given date range from {{userDataObj.fromDate}} to {{userDataObj.toDate}}  </td></tr>
         </tbody>
 </table>
 <simple-notifications [options]="options" ></simple-notifications>

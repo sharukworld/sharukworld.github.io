@@ -11,7 +11,6 @@ export class DeveloperLogComponent implements OnInit {
     @Input() jiraDomain;
     ticketUrl:string;
     ngOnChanges(change: SimpleChanges){
-        console.log(change);
         this.ticketUrl = 'https://'+this.jiraDomain +'/browse/';
     }
   

@@ -21,6 +21,7 @@ export class HomePageComponent {
   }
   isHttpCallOnProgress: boolean = false;
   selectedUser;
+  attemptedToFetchWorklogs = false;
   view = 'allUserView';
   public options = {
     position: ["bottom", "left"],
@@ -50,12 +51,11 @@ export class HomePageComponent {
   today = new Date();
   todayDate = '';
   ngOnInit() {
-    this.today.setHours(0, 0, 0, 0);
-    this.todayDate = (this.today).toLocaleString('en-GB').slice(0, 10).split("\/").reverse().join("-");
     let cookies = this.cookieService.getObject('jirKey');
     if (cookies != null)
       this.userDataObj = cookies;
-
+      this.today.setHours(0, 0, 0, 0);
+      this.todayDate = (this.today).toLocaleString('en-GB').slice(0, 10).split("\/").reverse().join("-");
     this.jiraDetailForm = this._fb.group({
       'userName': [this.userDataObj.username, [Validators.required]],
       'password': [this.userDataObj.password, [Validators.required]],
@@ -78,6 +78,7 @@ export class HomePageComponent {
   }
 
   getWorkLogFromTo() {
+    this.attemptedToFetchWorklogs = true;
     this.isHttpCallOnProgress = true;
      this.view = 'allUserView';
     let body = document.getElementsByTagName('body')[0];
@@ -85,9 +86,15 @@ export class HomePageComponent {
     this.setCookies();
     this.userList = [];
     let url = Url.baseUrl + Url.worklog;
-    if (this.userDataObj.fromDate == null) {
-      this.userDataObj.fromDate = this.todayDate;
-      this.userDataObj.toDate = ''
+    if (this.userDataObj.fromDate.formatted == null) {
+      console.log('here',this.userDataObj.fromDate);
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+      let todayDate = (today).toLocaleString('en-GB').slice(0, 10).split("\/").reverse().join("-");
+      today.setDate(today.getDate()+1);
+      let nextDay = (today).toLocaleString('en-GB').slice(0, 10).split("\/").reverse().join("-");
+      this.userDataObj.fromDate = todayDate;
+      this.userDataObj.toDate = nextDay;
     }
     else if (this.userDataObj.fromDate.formatted != null) {
       let startDate = this.userDataObj.fromDate.formatted.slice(0, 10);
@@ -102,7 +109,7 @@ export class HomePageComponent {
         this.isHttpCallOnProgress = false;
         body.classList.remove("loaderBackGround");
         if (!res.json().isValid) {
-          this._service.error('Login failed;', 'Invalid username, password, jiradomain or project.');
+          this._service.error(res.json().errorHeader, res.json().errorMessage);
         }
 
       }
