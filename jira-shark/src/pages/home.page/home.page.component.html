@@ -6,7 +6,7 @@
       <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.jiraDomain" formControlName="jiraDomain" type="text" placeholder="JiraDomain">
       <input class="form-control mr-sm-2" [(ngModel)] = "userDataObj.project" formControlName="project" type="text" placeholder="project">
       <my-date-range-picker [placeholder] = "'Today'"class ="padding-top-5"name="mydaterange"   [options]="myDateRangePickerOptions"
-                    [(ngModel)]="userDataObj.fromDate" formControlName="fromDate"></my-date-range-picker>
+                    [(ngModel)]="dateRange" formControlName="fromDate"></my-date-range-picker>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click) = "getWorkLogFromTo()" [disabled] ="!jiraDetailForm.valid">Get worklogs</button>
     </form>
   </div>

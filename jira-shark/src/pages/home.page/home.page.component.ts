@@ -21,6 +21,7 @@ export class HomePageComponent {
   }
   isHttpCallOnProgress: boolean = false;
   selectedUser;
+  dateRange;
   attemptedToFetchWorklogs = false;
   view = 'allUserView';
   public options = {
@@ -61,7 +62,7 @@ export class HomePageComponent {
       'password': [this.userDataObj.password, [Validators.required]],
       'jiraDomain': [this.userDataObj.jiraDomain, [Validators.required]],
       'project': [this.userDataObj.project, [Validators.required]],
-      'fromDate': [this.userDataObj.fromDate, []],
+      'fromDate': [this.dateRange, []],
     })
 
   }
@@ -86,7 +87,7 @@ export class HomePageComponent {
     this.setCookies();
     this.userList = [];
     let url = Url.baseUrl + Url.worklog;
-    if (this.userDataObj.fromDate.formatted == null) {
+    if (this.dateRange.formatted == null) {
       let today = new Date();
       today.setHours(0, 0, 0, 0);
       let todayDate = (today).toLocaleString('en-GB').slice(0, 10).split("\/").reverse().join("-");
@@ -95,9 +96,9 @@ export class HomePageComponent {
       this.userDataObj.fromDate = todayDate;
       this.userDataObj.toDate = nextDay;
     }
-    else if (this.userDataObj.fromDate.formatted != null) {
-      let startDate = this.userDataObj.fromDate.formatted.slice(0, 10);
-      let endDate = this.userDataObj.fromDate.formatted.slice(13, 23);
+    else if (this.dateRange.formatted != null) {
+      let startDate = this.dateRange.formatted.slice(0, 10);
+      let endDate = this.dateRange.formatted.slice(13, 23);
       this.userDataObj.fromDate = startDate;
       this.userDataObj.toDate = endDate;
     }

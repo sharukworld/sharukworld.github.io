@@ -13,7 +13,7 @@
               <td scope="row"><a [href]="ticketUrl+worklog.key" target="_blank">{{worklog.key}}</a></td>
               <td>{{worklog.timeSpent}}</td>
               <td>{{worklog.created | date:'shortTime'}}</td>
-              <td>{{worklog.created | date:'shortDate'}}</td>
+              <td>{{worklog.created | date:'y-MM-dd'}}</td>
           </tr>
       </tbody>
   </table>
