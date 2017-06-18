@@ -87,7 +87,6 @@ export class HomePageComponent {
     this.userList = [];
     let url = Url.baseUrl + Url.worklog;
     if (this.userDataObj.fromDate.formatted == null) {
-      console.log('here',this.userDataObj.fromDate);
       let today = new Date();
       today.setHours(0, 0, 0, 0);
       let todayDate = (today).toLocaleString('en-GB').slice(0, 10).split("\/").reverse().join("-");
@@ -112,6 +111,11 @@ export class HomePageComponent {
           this._service.error(res.json().errorHeader, res.json().errorMessage);
         }
 
+      },
+      err => {
+        body.classList.remove("loaderBackGround");
+        this.isHttpCallOnProgress = false;
+        this._service.error('Unexpected error occured', 'Contact admin');
       }
     );
   }

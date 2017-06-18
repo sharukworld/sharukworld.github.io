@@ -4,7 +4,8 @@
           <tr>
               <th>Ticket</th>
               <th>Time</th>
-              <th>Logged at</th>
+              <th>Logged Time</th>
+               <th>Logged date</th>
           </tr>
       </thead>
       <tbody>
@@ -12,6 +13,7 @@
               <td scope="row"><a [href]="ticketUrl+worklog.key" target="_blank">{{worklog.key}}</a></td>
               <td>{{worklog.timeSpent}}</td>
               <td>{{worklog.created | date:'shortTime'}}</td>
+              <td>{{worklog.created | date:'shortDate'}}</td>
           </tr>
       </tbody>
   </table>
