@@ -22,7 +22,8 @@
   <div class="sk-cube sk-cube8"></div>
   <div class="sk-cube sk-cube9"></div>
 </div>
-<table class="table table-striped " *ngIf="!isHttpCallOnProgress && view === 'allUserView'">
+<div class="table-responsive">
+<table class="table table-hover " *ngIf="!isHttpCallOnProgress && view === 'allUserView'">
     <thead class="thead-inverse">
         <tr *ngIf="attemptedToFetchWorklogs && userList.length > 0 ">
             <th>Name</th>
@@ -32,7 +33,7 @@
         </tr>
         </thead>
         <tbody>
-            <tr *ngFor ="let user of userList" (click)="selectUser(user)">
+            <tr *ngFor ="let user of userList" class="cursor-pointer"(click)="selectUser(user)">
                 <td >{{user.displayName}}</td>
                 <td>{{user.emailAddress}}</td>
                 <td> {{user.timeSpentSeconds/3600}} </td>
@@ -41,5 +42,6 @@
             <tr><td colspan="4" *ngIf="userList.length === 0 && attemptedToFetchWorklogs"> No data found for the given date range from {{userDataObj.fromDate}} to {{userDataObj.toDate}}  </td></tr>
         </tbody>
 </table>
+</div>
 <simple-notifications [options]="options" ></simple-notifications>
 <sw-jira-log *ngIf="view === 'specificUserView'" [user] = "selectedUser" [jiraDomain] = "userDataObj.jiraDomain"></sw-jira-log>
