@@ -22,7 +22,7 @@
   <div class="sk-cube sk-cube8"></div>
   <div class="sk-cube sk-cube9"></div>
 </div>
-<table class="table table-striped " *ngIf="!isHttpCallOnProgress">
+<table class="table table-striped " *ngIf="!isHttpCallOnProgress && view === 'allUserView'">
     <thead class="thead-inverse">
         <tr>
             <th>Name</th>
@@ -32,13 +32,14 @@
         </tr>
         </thead>
         <tbody>
-            <tr *ngFor ="let user of userList">
+            <tr *ngFor ="let user of userList" (click)="selectUser(user)">
                 <td >{{user.displayName}}</td>
                 <td>{{user.emailAddress}}</td>
-                <td> {{calculateTime(user.worklogs)}} </td>
+                <td> {{user.timeSpentSeconds/3600}} </td>
                  <td>  <img class="pic" src="{{user.avatarUrls['48x48']}}"/></td>
             </tr>
             <tr><td colspan="4" *ngIf="userList.length === 0"> No data found for the given credentials</td></tr>
         </tbody>
 </table>
 <simple-notifications [options]="options" ></simple-notifications>
+<sw-jira-log *ngIf="view === 'specificUserView'" [user] = "selectedUser" [jiraDomain] = "userDataObj.jiraDomain"></sw-jira-log>

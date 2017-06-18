@@ -1,0 +1,18 @@
+<div class="table-responsive">
+  <table class="table">
+      <thead>
+          <tr>
+              <th>Ticket</th>
+              <th>Time</th>
+              <th>Logged at</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor = "let worklog of user.worklogs">
+              <td scope="row"><a [href]="ticketUrl+worklog.key" target="_blank">{{worklog.key}}</a></td>
+              <td>{{worklog.timeSpent}}</td>
+              <td>{{worklog.created | date:'shortTime'}}</td>
+          </tr>
+      </tbody>
+  </table>
+</div>

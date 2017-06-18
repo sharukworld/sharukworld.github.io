@@ -20,6 +20,8 @@ export class HomePageComponent {
     private _service: NotificationsService) {
   }
   isHttpCallOnProgress: boolean = false;
+  selectedUser;
+  view = 'allUserView';
   public options = {
     position: ["bottom", "left"],
     timeOut: 5000,
@@ -27,7 +29,6 @@ export class HomePageComponent {
     animate: 'scale'
   }
   private myDateRangePickerOptions: IMyDrpOptions = {
-    // other options...
     dateFormat: 'yyyy-mm-dd',
     editableDateRangeField: false,
     openSelectorOnInputClick: true,
@@ -64,12 +65,7 @@ export class HomePageComponent {
     })
 
   }
-  // start() {
-  //   this._loadingSvc.setValue(true);
-  // }
-  // stop() {
-  //   this._loadingSvc.setValue(false);
-  // }
+
 
   setCookies() {
     let date = this.today;
@@ -82,8 +78,8 @@ export class HomePageComponent {
   }
 
   getWorkLogFromTo() {
-    // this.start();
     this.isHttpCallOnProgress = true;
+     this.view = 'allUserView';
     let body = document.getElementsByTagName('body')[0];
      body.classList.add("loaderBackGround");
     this.setCookies();
@@ -105,7 +101,6 @@ export class HomePageComponent {
         this.userList = res.json().users;
         this.isHttpCallOnProgress = false;
         body.classList.remove("loaderBackGround");
-        // this.stop();
         if (!res.json().isValid) {
           this._service.error('Login failed;', 'Invalid username, password, jiradomain or project.');
         }
@@ -113,18 +108,10 @@ export class HomePageComponent {
       }
     );
   }
-
-  calculateTime(worklogs) {
-    if (worklogs == null || worklogs.length === 0)
-      return 0;
-    let timeInSecond = 0;
-    worklogs.forEach(el => {
-      let date = new Date(el.updated);
-      let queryDate = (this.userDataObj.fromDate === '') ? this.todayDate : this.userDataObj.fromDate;
-      let fromDateCompare = new Date(queryDate + ' 00:00:00');
-      if (date >= fromDateCompare)
-        timeInSecond += el.timeSpentSeconds;
-    });
-    return timeInSecond / (60 * 60);
+  selectUser(user){
+    this.view = 'specificUserView';
+    this.selectedUser = user;
+    console.log('user', user);
   }
+
 }

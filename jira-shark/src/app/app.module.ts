@@ -10,11 +10,13 @@ import { HomePageComponent } from "pages/home.page/home.page.component";
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeveloperLogComponent } from "component/developer.logs/developer.log.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent
+    HomePageComponent,
+    DeveloperLogComponent
   ],
   imports: [
     BrowserModule,
