@@ -21,7 +21,11 @@ export class HomePageComponent {
   }
   isHttpCallOnProgress: boolean = false;
   selectedUser;
-  dateRange;
+  dateRange ={
+    formatted: undefined,
+    endEpoc: 0,
+    beginEpoc:0
+  };
   attemptedToFetchWorklogs = false;
   view = 'allUserView';
   public options = {
@@ -99,12 +103,20 @@ export class HomePageComponent {
     else if (this.dateRange.formatted != null) {
       let startDate = this.dateRange.formatted.slice(0, 10);
       let endDate = this.dateRange.formatted.slice(13, 23);
+      let endDateObj = new Date(endDate);
+      endDateObj.setTime(endDateObj.getTime() + 86400000)
+      endDate = (endDateObj).toLocaleString('en-GB').slice(0, 10).split("\/").reverse().join("-");
       this.userDataObj.fromDate = startDate;
       this.userDataObj.toDate = endDate;
     }
+    let startDateCompare = new Date(this.userDataObj.fromDate);
+    let endDateCompare = new Date(this.userDataObj.toDate);
+    startDateCompare.setHours(0, 0, 0, 0);
+    endDateCompare.setHours(0, 0, 0, 0);
+    this.userDataObj.startDateCompare = startDateCompare.toISOString();
+    this.userDataObj.endDateCompare = endDateCompare.toISOString();
     this.httpService.securePost(url, this.userDataObj, this.userDataObj.username, this.password).subscribe(
       res => {
-
         this.userList = res.json().users;
         this.isHttpCallOnProgress = false;
         body.classList.remove("loaderBackGround");
@@ -123,7 +135,6 @@ export class HomePageComponent {
   selectUser(user){
     this.view = 'specificUserView';
     this.selectedUser = user;
-    console.log('user', user);
   }
 
 }
